@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Minha Conta — BoxGym</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo"><div class="logo-icon">BG</div>Box<span>Gym</span></a>
+  <div class="nav-links">
+    <a href="index.html">Início</a><a href="sobre.html">Sobre</a><a href="precos.html">Preços</a>
+    <a href="reservar.html">Reservar</a>
+    <a href="loja.html">Loja</a><a href="regulamento.html">Regulamento</a>
+  </div>
+  <a href="conta.html" class="nav-account" style="margin-left:auto"><span class="dot"></span> Conta</a>
+  <button class="nav-burger"><span></span><span></span><span></span></button>
+</nav>
+<div class="nav-mobile">
+  <a href="index.html">Início</a><a href="sobre.html">Sobre</a><a href="precos.html">Preços</a>
+  <a href="reservar.html">Reservar</a>
+    <a href="loja.html">Loja</a><a href="regulamento.html">Regulamento</a><a href="conta.html">A Minha Conta</a>
+</div>
+
+<!-- AUTH section (shown when logged out) -->
+<div id="authSection" style="display:none;">
+  <div class="page-header">
+    <div class="page-header-bg"></div>
+    <div class="container">
+      <div class="section-label fade-up">Acesso</div>
+      <h1 style="font-family:var(--font-head);font-size:clamp(2.5rem,6vw,5rem);font-weight:900;text-transform:uppercase;line-height:0.92;" class="fade-up delay-1">
+        Entrar /<br>Registar
+      </h1>
+    </div>
+  </div>
+  <section>
+    <div class="container">
+      <div style="max-width:480px;margin:0 auto;">
+        <!-- Tabs -->
+        <div class="account-tabs" style="width:100%;justify-content:center;margin-bottom:2rem;">
+          <button class="account-tab active" id="loginTabBtn">Entrar</button>
+          <button class="account-tab" id="registerTabBtn">Criar Conta</button>
+        </div>
+
+        <!-- Login form -->
+        <div id="loginForm" class="card fade-up">
+          <h2 style="font-family:var(--font-head);font-size:1.5rem;text-transform:uppercase;margin-bottom:1.5rem;">Bem-vindo de volta</h2>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" id="loginEmail" class="form-input" placeholder="o.teu@email.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="loginPassword" class="form-input" placeholder="••••••••">
+          </div>
+          <button class="btn btn-primary btn-full btn-lg" id="loginBtn" style="margin-top:0.5rem;">
+            Entrar &rarr;
+          </button>
+          <div style="text-align:center;margin-top:1rem;font-size:0.82rem;color:var(--muted);">
+            Não tens conta? <button onclick="switchToRegister()" style="background:none;border:none;color:var(--accent);font-size:0.82rem;cursor:pointer;font-weight:600;">Regista-te</button>
+          </div>
+        </div>
+
+        <!-- Register form -->
+        <div id="registerForm" class="card fade-up" style="display:none;">
+          <h2 style="font-family:var(--font-head);font-size:1.5rem;text-transform:uppercase;margin-bottom:1.5rem;">Criar Conta</h2>
+          <div class="grid-name">
+            <div class="form-group">
+              <label class="form-label">Nome</label>
+              <input type="text" id="regName" class="form-input" placeholder="Nome">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Apelido</label>
+              <input type="text" id="regSurname" class="form-input" placeholder="Apelido">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" id="regEmail" class="form-input" placeholder="o.teu@email.com">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Telemóvel</label>
+            <input type="tel" id="regPhone" class="form-input" placeholder="+351 9XX XXX XXX">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password</label>
+            <input type="password" id="regPassword" class="form-input" placeholder="Mínimo 8 caracteres">
+          </div>
+          <div class="form-group">
+            <label class="form-check">
+              <input type="checkbox" id="regPlan">
+              <span>Aderir ao <strong>Plano Mensal (50€/mês)</strong> — 11 sessões incluídas</span>
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="form-check">
+              <input type="checkbox" id="regTerms" required>
+              <span>Aceito o <a href="regulamento.html" style="color:var(--accent)">Regulamento Interno</a> do BoxGym.</span>
+            </label>
+          </div>
+          <button class="btn btn-primary btn-full btn-lg" id="registerBtn" style="margin-top:0.5rem;">
+            Criar Conta &rarr;
+          </button>
+          <div style="text-align:center;margin-top:1rem;font-size:0.82rem;color:var(--muted);">
+            Já tens conta? <button onclick="switchToLogin()" style="background:none;border:none;color:var(--accent);font-size:0.82rem;cursor:pointer;font-weight:600;">Entrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- DASHBOARD section (shown when logged in) -->
+<div id="dashSection" style="display:none;">
+  <div class="page-header">
+    <div class="page-header-bg"></div>
+    <div class="container">
+      <div class="section-label fade-up">Dashboard</div>
+      <h1 style="font-family:var(--font-head);font-size:clamp(2rem,5vw,4rem);font-weight:900;text-transform:uppercase;line-height:0.95;" class="fade-up delay-1">
+        Olá, <span id="dashName" style="color:var(--accent)">—</span>!
+      </h1>
+      <p style="color:var(--muted);margin-top:0.5rem;" class="fade-up delay-2" id="dashPlanTag"></p>
+    </div>
+  </div>
+  <section>
+    <div class="container">
+      <div class="account-tabs">
+        <button class="account-tab active" data-tab="tab-reservas">As Minhas Reservas</button>
+        <button class="account-tab" data-tab="tab-encomendas">Encomendas</button>
+        <button class="account-tab" data-tab="tab-plano">Plano &amp; Faturação</button>
+        <button class="account-tab" data-tab="tab-perfil">Perfil</button>
+      </div>
+
+      <!-- Reservas -->
+      <div class="account-tab-content active" id="tab-reservas">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <div class="section-label">As Tuas Sessões</div>
+            <h2 style="font-family:var(--font-head);font-size:1.8rem;text-transform:uppercase;">Reservas</h2>
+          </div>
+          <a href="reservar.html" class="btn btn-primary">+ Nova Reserva</a>
+        </div>
+        <div id="bookingsList">
+          <div class="sessions-empty" style="padding:3rem;">
+            <span style="font-size:3rem;">📅</span>
+            <p>Ainda não tens reservas.<br><a href="reservar.html" style="color:var(--accent)">Reservar agora</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Encomendas -->
+      <div class="account-tab-content" id="tab-encomendas">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+          <div>
+            <div class="section-label">As Tuas Compras</div>
+            <h2 style="font-family:var(--font-head);font-size:1.8rem;text-transform:uppercase;">Encomendas</h2>
+          </div>
+          <a href="loja.html" class="btn btn-primary">Ir à Loja</a>
+        </div>
+        <div id="ordersList">
+          <div class="sessions-empty" style="padding:3rem;">
+            <span style="font-size:3rem;">📦</span>
+            <p>Ainda não tens encomendas.<br><a href="loja.html" style="color:var(--accent)">Visitar a loja</a></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Plano -->
+      <div class="account-tab-content" id="tab-plano">
+        <div id="planSection"></div>
+      </div>
+
+      <!-- Perfil -->
+      <div class="account-tab-content" id="tab-perfil">
+        <div style="max-width:480px;">
+          <div class="section-label">Os Teus Dados</div>
+          <h2 style="font-family:var(--font-head);font-size:1.8rem;text-transform:uppercase;margin-bottom:1.5rem;">Perfil</h2>
+          <div class="card" id="profileCard"></div>
+          <button class="btn btn-danger btn-sm" id="logoutBtn" style="margin-top:1.5rem;">Terminar Sessão</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="toast-container"></div>
+<script src="js/main.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const user = Account.get();
+
+  const authSection  = document.getElementById('authSection');
+  const dashSection  = document.getElementById('dashSection');
+  const loginTabBtn  = document.getElementById('loginTabBtn');
+  const regTabBtn    = document.getElementById('registerTabBtn');
+
+  if (user) {
+    dashSection.style.display = 'block';
+    loadDashboard(user);
+  } else {
+    authSection.style.display = 'block';
+  }
+
+  // Tab switching
+  if (loginTabBtn) loginTabBtn.addEventListener('click', switchToLogin);
+  if (regTabBtn)   regTabBtn.addEventListener('click', switchToRegister);
+
+  // Login
+  const loginBtn = document.getElementById('loginBtn');
+  if (loginBtn) {
+    loginBtn.addEventListener('click', () => {
+      const email = document.getElementById('loginEmail').value.trim();
+      const pw    = document.getElementById('loginPassword').value;
+      if (!email || !pw) { Toast.show('Preenche todos os campos', 'error'); return; }
+      // Demo: accept any credentials, create demo account
+      let u = Account.get();
+      if (!u) {
+        u = { name: email.split('@')[0], email, plan: false, planSessions: 0, bookings: [], createdAt: new Date().toISOString() };
+      }
+      Account.set(u);
+      Toast.show('Sessão iniciada com sucesso!', 'success');
+      setTimeout(() => location.reload(), 800);
+    });
+  }
+
+  // Register
+  const registerBtn = document.getElementById('registerBtn');
+  if (registerBtn) {
+    registerBtn.addEventListener('click', () => {
+      const name    = document.getElementById('regName').value.trim();
+      const surname = document.getElementById('regSurname').value.trim();
+      const email   = document.getElementById('regEmail').value.trim();
+      const phone   = document.getElementById('regPhone').value.trim();
+      const pw      = document.getElementById('regPassword').value;
+      const plan    = document.getElementById('regPlan').checked;
+      const terms   = document.getElementById('regTerms').checked;
+
+      if (!name || !email || !pw) { Toast.show('Preenche os campos obrigatórios', 'error'); return; }
+      if (pw.length < 8)           { Toast.show('A password deve ter pelo menos 8 caracteres', 'error'); return; }
+      if (!terms)                  { Toast.show('Deves aceitar o Regulamento', 'error'); return; }
+
+      const u = {
+        name: name + (surname ? ' ' + surname : ''),
+        email, phone,
+        plan,
+        planSessions: 0,
+        bookings: [],
+        createdAt: new Date().toISOString()
+      };
+      Account.set(u);
+      Toast.show('Conta criada com sucesso! Bem-vindo ao BoxGym 🎉', 'success', 4000);
+      setTimeout(() => location.reload(), 1000);
+    });
+  }
+
+  // Logout
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      if (confirm('Tens a certeza que queres terminar a sessão?')) Account.logout();
+    });
+  }
+});
+
+function switchToLogin() {
+  document.getElementById('loginForm').style.display = 'block';
+  document.getElementById('registerForm').style.display = 'none';
+  document.getElementById('loginTabBtn').classList.add('active');
+  document.getElementById('registerTabBtn').classList.remove('active');
+}
+function switchToRegister() {
+  document.getElementById('loginForm').style.display = 'none';
+  document.getElementById('registerForm').style.display = 'block';
+  document.getElementById('registerTabBtn').classList.add('active');
+  document.getElementById('loginTabBtn').classList.remove('active');
+}
+
+function loadDashboard(user) {
+  // Name
+  document.getElementById('dashName').textContent = user.name ? user.name.split(' ')[0] : 'Utilizador';
+  const planTag = document.getElementById('dashPlanTag');
+  planTag.innerHTML = user.plan
+    ? `<span class="tag tag-accent">Plano Mensal Ativo</span> &nbsp; <span style="font-size:0.82rem;">${11 - (user.planSessions||0)} sessões restantes este mês</span>`
+    : `<span class="tag tag-muted">Sem Plano</span>`;
+
+  // Bookings
+  const bookingsList = document.getElementById('bookingsList');
+  const bookings = user.bookings || [];
+  if (bookings.length > 0) {
+    bookingsList.innerHTML = '';
+    const upcoming = bookings.slice().reverse();
+    upcoming.forEach(b => {
+      const hStr = String(b.slot).padStart(2,'0');
+      const isConfirmed = b.status !== 'pending';
+      const el = document.createElement('div');
+      el.className = 'booking-entry';
+      el.innerHTML = `
+        <div class="booking-entry-info">
+          <div class="booking-entry-date">${fmtDate(b.date)} · ${hStr}h00</div>
+          <div class="booking-entry-meta">Ref: ${b.ref} · ${b.label} · ${b.companion ? '👥 Acompanhante' : '1 pessoa'}</div>
+        </div>
+        <div class="booking-entry-badge">
+          <span class="tag ${isConfirmed ? 'tag-green' : 'tag-yellow'}">${isConfirmed ? 'Confirmado' : 'Pendente'}</span>
+        </div>
+      `;
+      bookingsList.appendChild(el);
+    });
+  }
+
+  // Orders
+  const ordersList = document.getElementById('ordersList');
+  let orders = [];
+  try {
+    const raw = localStorage.getItem('boxgym_shop_orders');
+    if (raw) orders = JSON.parse(raw);
+  } catch(e) {}
+  if (!Array.isArray(orders) || !orders.length) orders = Array.isArray(user.shopOrders) ? user.shopOrders : [];
+
+  if (orders.length > 0) {
+    ordersList.innerHTML = '';
+    const statusLabel = { confirmed: 'Confirmada', pending: 'Pagamento Pendente', shipped: 'Enviada', delivered: 'Entregue' };
+    const statusTag   = { confirmed: 'tag-green', pending: 'tag-yellow', shipped: 'tag-accent', delivered: 'tag-green' };
+
+    orders.slice().reverse().forEach(function(order) {
+      var card = document.createElement('div');
+      card.className = 'card fade-up:visible';
+      card.style.marginBottom = '1rem';
+
+      // Header row
+      var header = document.createElement('div');
+      header.style.cssText = 'display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:1rem;flex-wrap:wrap;';
+
+      var info = document.createElement('div');
+      var refDiv = document.createElement('div');
+      refDiv.style.cssText = 'font-family:var(--font-head);font-size:1rem;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;';
+      refDiv.textContent = 'Encomenda ' + (order.ref || '—');
+      var metaDiv = document.createElement('div');
+      metaDiv.style.cssText = 'font-size:0.78rem;color:var(--muted);margin-top:0.2rem;';
+      var dateStr = '—';
+      try { dateStr = new Date(order.createdAt).toLocaleDateString('pt-PT', {day:'2-digit',month:'short',year:'numeric'}); } catch(e) {}
+      metaDiv.innerHTML = dateStr + ' · ' + (order.methodLabel || '—') + ' · Total: <strong>' + (order.total || '—') + '</strong>';
+      var addrDiv = document.createElement('div');
+      addrDiv.style.cssText = 'font-size:0.78rem;color:var(--muted);margin-top:0.15rem;';
+      addrDiv.textContent = '📍 ' + (order.address || '—');
+      info.appendChild(refDiv);
+      info.appendChild(metaDiv);
+      info.appendChild(addrDiv);
+
+      var badge = document.createElement('span');
+      badge.className = 'tag ' + (statusTag[order.status] || 'tag-muted');
+      badge.style.flexShrink = '0';
+      badge.textContent = statusLabel[order.status] || (order.status || '—');
+
+      header.appendChild(info);
+      header.appendChild(badge);
+      card.appendChild(header);
+
+      // Items
+      var items = Array.isArray(order.items) ? order.items : [];
+      items.forEach(function(i) {
+        var row = document.createElement('div');
+        row.style.cssText = 'display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0;border-bottom:1px solid var(--border);';
+        var img = document.createElement('img');
+        img.src = i.img || '';
+        img.alt = i.name || '';
+        img.style.cssText = 'width:42px;height:42px;object-fit:cover;border-radius:8px;background:#1a1a1a;flex-shrink:0;';
+        var itemInfo = document.createElement('div');
+        itemInfo.style.cssText = 'flex:1;min-width:0;';
+        var nameDiv = document.createElement('div');
+        nameDiv.style.cssText = 'font-size:0.88rem;font-weight:600;';
+        nameDiv.textContent = i.name || '—';
+        var descDiv = document.createElement('div');
+        descDiv.style.cssText = 'font-size:0.75rem;color:var(--muted);';
+        descDiv.textContent = (i.size ? 'Tam. ' + i.size + ' · ' : '') + 'Qtd: ' + (i.qty || 1);
+        itemInfo.appendChild(nameDiv);
+        itemInfo.appendChild(descDiv);
+        var priceDiv = document.createElement('div');
+        priceDiv.style.cssText = 'font-weight:600;font-size:0.9rem;white-space:nowrap;';
+        var lineTotal = (Number(i.price) || 0) * (Number(i.qty) || 1);
+        priceDiv.textContent = lineTotal.toFixed(2).replace('.',',') + '€';
+        row.appendChild(img);
+        row.appendChild(itemInfo);
+        row.appendChild(priceDiv);
+        card.appendChild(row);
+      });
+
+      // Multibanco reference
+      if (order.method === 'multibanco' && order.status === 'pending') {
+        var mbDiv = document.createElement('div');
+        mbDiv.className = 'alert alert-warning';
+        mbDiv.style.marginTop = '1rem';
+        mbDiv.style.fontSize = '0.8rem';
+        mbDiv.innerHTML = '<span>🏧</span><span>Entidade: <strong>' + (order.mbEntity||'—') + '</strong> · Ref: <strong>' + (order.mbRef||'—') + '</strong> · Pagar até às <strong>' + (order.mbDeadline||'—') + '</strong></span>';
+        card.appendChild(mbDiv);
+      }
+
+      ordersList.appendChild(card);
+    });
+  }
+
+  // Plan section
+  const planSection = document.getElementById('planSection');
+  if (user.plan) {
+    const used = user.planSessions || 0;
+    planSection.innerHTML = `
+      <div class="section-label">Subscrição</div>
+      <h2 style="font-family:var(--font-head);font-size:1.8rem;text-transform:uppercase;margin-bottom:1.5rem;">Plano Mensal</h2>
+      <div class="card" style="max-width:480px;border-color:rgba(255, 0, 0, 0.3);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+          <div>
+            <div style="font-family:var(--font-head);font-size:1.3rem;text-transform:uppercase;">Plano Mensal</div>
+            <div style="font-size:0.82rem;color:var(--muted);">50€/mês · Renovação automática</div>
+          </div>
+          <span class="tag tag-green">Ativo</span>
+        </div>
+        <div class="plan-indicator" style="margin-bottom:1.25rem;">
+          <div class="plan-indicator-label">
+            <span>Sessões utilizadas</span>
+            <span>${used}/11</span>
+          </div>
+          <div class="plan-progress">
+            <div class="plan-progress-bar" style="width:${(used/11)*100}%"></div>
+          </div>
+        </div>
+        <div style="font-size:0.82rem;color:var(--muted);margin-bottom:1.25rem;">
+          ${11 - used} sessões disponíveis este mês. As sessões renovam no início do próximo mês.
+        </div>
+        <button class="btn btn-ghost btn-sm btn-full" onclick="if(confirm('Cancelar o plano mensal?')){const u=Account.get();u.plan=false;Account.set(u);Toast.show('Plano cancelado','info');setTimeout(()=>location.reload(),800);}">
+          Cancelar Plano
+        </button>
+      </div>
+    `;
+  } else {
+    planSection.innerHTML = `
+      <div class="section-label">Subscrição</div>
+      <h2 style="font-family:var(--font-head);font-size:1.8rem;text-transform:uppercase;margin-bottom:1.5rem;">Sem Plano Ativo</h2>
+      <div class="card" style="max-width:480px;">
+        <div style="font-family:var(--font-head);font-size:1.3rem;text-transform:uppercase;margin-bottom:0.5rem;">Plano Mensal</div>
+        <div style="font-family:var(--font-head);font-size:3rem;color:var(--accent);line-height:1;margin-bottom:0.25rem;">50€<sup style="font-size:1.2rem;">/mês</sup></div>
+        <p style="font-size:0.88rem;color:var(--muted);margin:1rem 0;">11 sessões incluídas por mês. Sem fidelização. Cancela quando quiseres.</p>
+        <button class="btn btn-primary btn-full" onclick="const u=Account.get();u.plan=true;u.planSessions=0;Account.set(u);Toast.show('Plano ativado! 🎉','success',4000);setTimeout(()=>location.reload(),1000);">
+          Aderir ao Plano &rarr;
+        </button>
+      </div>
+    `;
+  }
+
+  // Profile
+  const profileCard = document.getElementById('profileCard');
+  profileCard.innerHTML = `
+    <div class="form-group">
+      <label class="form-label">Nome</label>
+      <input type="text" class="form-input" value="${user.name || ''}" id="pfName">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-input" value="${user.email || ''}" id="pfEmail">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Telemóvel</label>
+      <input type="tel" class="form-input" value="${user.phone || ''}" id="pfPhone" placeholder="+351 9XX XXX XXX">
+    </div>
+    <div style="font-size:0.78rem;color:var(--muted);margin-bottom:1rem;">Membro desde ${new Date(user.createdAt||Date.now()).toLocaleDateString('pt-PT')}</div>
+    <button class="btn btn-primary" onclick="
+      const u=Account.get();
+      u.name=document.getElementById('pfName').value;
+      u.email=document.getElementById('pfEmail').value;
+      u.phone=document.getElementById('pfPhone').value;
+      Account.set(u);
+      Toast.show('Perfil atualizado!','success');
+    ">Guardar Alterações</button>
+  `;
+}
+</script>
+</body>
+</html>
